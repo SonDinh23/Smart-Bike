@@ -1,0 +1,50 @@
+#include <zephyr/dt-bindings/adc/adc.h>
+
+/{
+    leds {
+		compatible = "gpio-leds";
+		pinLed: pinLed {
+			gpios = <&gpio0 03 GPIO_ACTIVE_LOW>;
+			label = "Pin led";
+		};
+    };
+    
+    buttons {
+		compatible = "gpio-keys";
+		buttonRing: buttonRing {
+			gpios = <&gpio0 07 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+			label = "pin button";
+		};
+    };
+
+	zephyr,user {
+        io-channels =  <&adc 0>;
+    };
+
+    aliases {
+		pinled = &pinLed;
+        swring = &buttonRing;
+    };
+
+};
+
+&gpio0 {
+    status = "okay";
+};
+
+&adc {
+    compatible = "nordic,nrf-saadc";
+    status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    channel@0 {
+        reg = <0>;
+        zephyr,gain = "ADC_GAIN_1_6";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,input-positive = <NRF_SAADC_VDD>;
+        zephyr,resolution = <12>;
+        zephyr,oversampling = <8>;
+    };
+};
