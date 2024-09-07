@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "init.h": "c",
+        "settings.h": "c",
+        "gatt.h": "c",
+        "contrain.h": "c"
+    }
+}
